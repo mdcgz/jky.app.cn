@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的自制软件</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .software-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .software-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .software-card h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #333;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+        
+        .software-card h3 {
+            font-size: 1.3rem;
+            margin: 20px 0 10px;
+            color: #555;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+        
+        .software-card .category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .tech-badge {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .path-info {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 3px solid #667eea;
+        }
+        
+        .action-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .action-button:hover {
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        
+        .expand-btn {
+            background: none;
+            border: 1px solid #667eea;
+            color: #667eea;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .expand-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .expanded-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .expanded {}
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 40px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .software-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .software-card {
+                padding: 20px;
+            }
+        }
+        
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <div class="container">
+        <header>
+            <h1>我的自制软件</h1>
+            <p class="subtitle">这是我开发的一些个人项目，包括桌面应用、AI助手等。每个软件都有其独特的功能和用途。</p>
+        </header>
+        
+        <div class="software-grid">
+            <!-- ADS - 安卓桌面 -->
+            <div class="software-card">
+                <span class="category">Windows桌面应用</span>
+                <h2>安卓桌面 (ADS)</h2>
+                <p>一个运行在Windows环境下的安卓风格桌面应用，模拟安卓手机/平板的桌面体验。</p>
+                
+                <h3>主要功能</h3>
+                <ul class="feature-list">
+                    <li>安卓风格的桌面界面，包括应用图标网格和底部导航栏</li>
+                    <li>支持自定义主题颜色和背景类型</li>
+                    <li>实时显示时间和状态栏信息</li>
+                    <li>设置面板，可配置主题颜色、背景和自启动选项</li>
+                    <li>系统托盘图标，支持最小化到托盘和快速退出</li>
+                    <li>支持自定义添加软件到桌面</li>
+                </ul>
+                
+                <h3>技术栈</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">Node.js</span>
+                </div>
+                
+                <h3>文件路径</h3>
+                <div class="path-info">c:\我自制的软件。\ADS</div>
+                
+                <button class="expand-btn" onclick="toggleExpand(this)">显示更多</button>
+                <div class="expanded-content">
+                    <h3>使用说明</h3>
+                    <p><strong>快速启动：</strong>双击运行 run.bat 文件，首次启动时会自动安装必要的依赖。</p>
+                    <p><strong>控制中心：</strong>点击屏幕顶部的任意位置可以打开/关闭控制中心。</p>
+                    <p><strong>自定义软件：</strong>通过设置界面可以添加自定义软件到桌面。</p>
+                    <p><strong>退出全屏：</strong>按Win键可以退出全屏，访问Windows任务视图。</p>
+                </div>
+                
+                <a href="c:\我自制的软件。\ADS" class="action-button">打开文件夹</a>
+            </div>
+            
+            <!-- PhoneAI -->
+            <div class="software-card">
+                <span class="category">智能助手应用</span>
+                <h2>PhoneAI</h2>
+                <p>基于Node.js和Electron开发的智能助手应用，支持语音交互、多平台适配和悬浮窗口设计。</p>
+                
+                <h3>主要功能</h3>
+                <ul class="feature-list">
+                    <li>智能语音交互，无需手动输入</li>
+                    <li>多平台支持,已支持Windows,macOS,Linux没被支持。</li>
+                    <li>编译后生成Android风格界面，包含WiFi、电池、应用图标等功能模拟</li>
+                    <li>悬浮窗口设计，随时可以访问</li>
+                    <li>支持OpenAI和硅基流动等多种AI服务</li>
+                    <li>个性化设置，自定义界面样式和API配置</li>
+                </ul>
+                
+                <h3>技术栈</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">Node.js</span>
+                    <span class="tech-badge">Electron</span>
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">AI API</span>
+                </div>
+                
+                <h3>文件路径</h3>
+                <div class="path-info">c:\我自制的软件。\phoneai-node\dist\PhoneAI-win32-x64</div>
+                
+                <button class="expand-btn" onclick="toggleExpand(this)">显示更多</button>
+                <div class="expanded-content">
+                    <h3>使用说明</h3>
+                    <p><strong>启动应用：</strong>运行PhoneAI.exe可执行文件。</p>
+                    <p><strong>交互方式：</strong>支持文字和语音输入与AI助手交流。</p>
+                    <p><strong>悬浮窗口：</strong>左键点击打开交互窗口，右键点击显示快捷菜单。</p>
+                    <p><strong>系统托盘：</strong>应用最小化时会显示在系统托盘。</p>
+                    <p><strong>API配置：</strong>在设置界面可以配置不同AI提供商的API密钥。</p>
+                </div>
+                
+                <a href="c:\我自制的软件。\phoneai-node\dist\PhoneAI-win32-x64" class="action-button">打开文件夹</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2024 我的软件作品集 | 更多软件正在开发中...</p>
+        </footer>
+    </div>
+    
+    <script>
+        function toggleExpand(button) {
+            const content = button.nextElementSibling;
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                button.textContent = '显示更多';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                button.textContent = '收起';
+            }
+        }
+        
+        // 添加页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.software-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 200 + index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
